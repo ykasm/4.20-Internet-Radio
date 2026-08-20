@@ -13,105 +13,166 @@
 <body>
 <div class="noise"></div><div class="scanlines"></div><div class="vignette"></div>
 <div class="smoke smoke-a"></div><div class="smoke smoke-b"></div><div class="smoke smoke-c"></div>
-<div class="ash"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
 
-<div class="boot" id="boot"><div class="boot-card">
-  <div class="boot-logo">SMOKE<span>FM</span></div>
-  <div class="boot-copy">INITIALIZING 4.20 INTERNET RADIO</div>
-  <div class="boot-meter"><span></span></div>
-  <div class="boot-small">PLEASE WAIT / TURN THE LIGHTS DOWN</div>
-</div></div>
+<div class="boot" id="boot">
+  <div class="boot-card">
+    <div class="boot-logo">SMOKE<span>FM</span></div>
+    <div class="boot-copy">CONNECTING TO 4.20 INTERNET RADIO</div>
+    <div class="boot-meter"><span></span></div>
+    <div class="boot-small">TURN THE LIGHTS DOWN / TURN THE MUSIC UP</div>
+  </div>
+</div>
 
 <main class="site">
 <header class="topbar">
   <div class="brand">
     <div class="brand-badge">420</div>
-    <div><div class="brand-name">SMOKE FM</div><div class="brand-sub">4.20 INTERNET RADIO</div></div>
+    <div>
+      <div class="brand-name">SMOKE FM</div>
+      <div class="brand-sub">4.20 INTERNET RADIO</div>
+    </div>
   </div>
   <div class="live-status"><span class="led"></span><b>ON AIR</b><span>//</span><span id="clock">00:00:00</span></div>
 </header>
 
 <section class="radio-grid">
-<aside class="panel station-panel">
-  <div class="panel-head"><span>STATION SELECT</span><b>01—05</b></div>
-  <button class="station active" data-station="smoke"><em>01</em><strong>SMOKE</strong><small>laid back / hazy</small><i>●</i></button>
-  <button class="station" data-station="afterhours"><em>02</em><strong>AFTER HOURS</strong><small>slow / nocturnal</small><i>●</i></button>
-  <button class="station" data-station="cypher"><em>03</em><strong>CYPHER</strong><small>bars / heavy drums</small><i>●</i></button>
-  <button class="station" data-station="purple"><em>04</em><strong>PURPLE</strong><small>slow / chopped</small><i>●</i></button>
-  <button class="station" data-station="westcoast"><em>05</em><strong>WEST COAST</strong><small>sunset / lowrider</small><i>●</i></button>
-  <div class="station-note">YOUR PLAYLIST<br><span>4.20 INTERNET RADIO</span></div>
-</aside>
+  <aside class="panel station-panel">
+    <div class="panel-head"><span>STATIONS</span><b>01—05</b></div>
 
-<section class="player panel">
-  <div class="player-top"><div><span class="eyebrow">NOW PLAYING</span><span class="air-tag">● ON AIR</span></div><div class="freq">FM 4.20</div></div>
+    <button class="station active" data-station="smoke">
+      <em>01</em><div><strong>SMOKE</strong><small>laid back / hazy</small></div><i>●</i>
+    </button>
+    <button class="station" data-station="afterhours">
+      <em>02</em><div><strong>AFTER HOURS</strong><small>slow / nocturnal</small></div><i>●</i>
+    </button>
+    <button class="station" data-station="cypher">
+      <em>03</em><div><strong>CYPHER</strong><small>bars / heavy drums</small></div><i>●</i>
+    </button>
+    <button class="station" data-station="purple">
+      <em>04</em><div><strong>PURPLE</strong><small>slow / chopped</small></div><i>●</i>
+    </button>
+    <button class="station" data-station="westcoast">
+      <em>05</em><div><strong>WEST COAST</strong><small>sunset / lowrider</small></div><i>●</i>
+    </button>
 
-  <div class="tuner"><span>88</span><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><b>4.20</b><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><span>108</span></div>
-
-  <div class="art-frame">
-    <div class="art-art" id="albumArt">
-      <div class="record"><div class="record-label">420<br><small>FM</small></div></div>
-      <div class="art-overlay"></div>
-      <div class="art-stamp">SMOKE FM<br><small>LIVE RADIO</small></div>
-      <div class="art-side">SIDE A</div>
+    <div class="playlist-card">
+      <span>PLAYLIST</span>
+      <b>4.20 INTERNET RADIO</b>
+      <small>MORE TRACKS ADDED LIVE VIA YOUTUBE</small>
     </div>
-  </div>
+  </aside>
 
-  <div class="track">
-    <div class="station-tag" id="stationLabel">SMOKE</div>
-    <h1 id="trackTitle">Connecting...</h1>
-    <p id="trackArtist">4.20 INTERNET RADIO — YOUTUBE</p>
-  </div>
+  <section class="player panel">
+    <div class="player-top">
+      <div><span class="eyebrow">NOW PLAYING</span><span class="air-tag">● ON AIR</span></div>
+      <div class="freq">FM 4.20</div>
+    </div>
 
-  <div class="progress-wrap">
-    <div class="progress-hit" id="progressHit"><span id="progressFill"></span><b></b></div>
-    <div class="time"><span id="currentTime">00:00</span><span id="duration">00:00</span></div>
-  </div>
+    <div class="tuner">
+      <span>88</span><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      <b>4.20</b>
+      <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><span>108</span>
+    </div>
 
-  <div class="controls">
-    <button class="control" id="shuffleBtn" title="Shuffle">↝</button>
-    <button class="control" id="prevBtn" title="Previous">|◀</button>
-    <button class="main-play" id="playBtn" title="Play / Pause">▶</button>
-    <button class="control" id="nextBtn" title="Next">▶|</button>
-    <button class="control" id="muteBtn" title="Mute">♫</button>
-  </div>
+    <div class="hero-art">
+      <div class="art-art" id="albumArt">
+        <div class="art-vignette"></div>
+        <div class="record" id="record">
+          <div class="record-label">420<small>FM</small></div>
+        </div>
+        <div class="art-stamp">SMOKE FM<br><small>LIVE RADIO</small></div>
+        <div class="art-side">SIDE A</div>
+        <div class="art-bottom">4.20 INTERNET RADIO</div>
+      </div>
+    </div>
 
-  <div class="deck">
-    <div class="deck-left"><span>SIGNAL</span><b id="signalText">CONNECTING</b></div>
-    <div class="volume"><span>VOL</span><input id="volume" type="range" min="0" max="100" value="72"></div>
-    <div class="deck-right">STEREO <i>●</i></div>
-  </div>
+    <div class="track">
+      <div class="station-tag" id="stationLabel">SMOKE</div>
+      <h1 id="trackTitle">Connecting...</h1>
+      <p id="trackArtist">4.20 INTERNET RADIO — YOUTUBE</p>
+    </div>
 
-  <div class="visualizer" id="visualizer">
-    <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-  </div>
+    <div class="progress-wrap">
+      <div class="progress-hit" id="progressHit">
+        <span id="progressFill"></span><b></b>
+      </div>
+      <div class="time"><span id="currentTime">00:00</span><span id="duration">00:00</span></div>
+    </div>
 
-  <div class="source-note">SOURCE: <b>YOUTUBE</b> <span>•</span> PLAYLIST: <b>4.20 INTERNET RADIO</b></div>
+    <div class="controls">
+      <button class="control" id="shuffleBtn" title="Shuffle">↝</button>
+      <button class="control" id="prevBtn" title="Previous">|◀</button>
+      <button class="main-play" id="playBtn" title="Play / Pause">▶</button>
+      <button class="control" id="nextBtn" title="Next">▶|</button>
+      <button class="control" id="muteBtn" title="Mute">♫</button>
+    </div>
+
+    <div class="deck">
+      <div class="deck-left"><span>SIGNAL</span><b id="signalText">CONNECTING</b></div>
+      <div class="volume"><span>VOL</span><input id="volume" type="range" min="0" max="100" value="72"></div>
+      <div class="deck-right">STEREO <i>●</i></div>
+    </div>
+
+    <div class="visualizer" id="visualizer">
+      <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+    </div>
+
+    <div class="source-note">SOURCE <b>YOUTUBE</b><span>•</span> PLAYLIST <b>4.20 INTERNET RADIO</b></div>
+  </section>
+
+  <aside class="panel info-panel">
+    <div class="panel-head"><span>LIVE INFO</span><b>24 / 7</b></div>
+
+    <div class="live-card">
+      <div class="live-icon"><span></span></div>
+      <div><b>LIVE RADIO</b><small>SMOKE FM IS ONLINE</small></div>
+    </div>
+
+    <div class="stat">
+      <span>LISTENERS</span>
+      <strong id="listeners">427</strong>
+    </div>
+    <div class="stat">
+      <span>BITRATE</span>
+      <strong>320 KBPS</strong>
+    </div>
+    <div class="stat">
+      <span>MODE</span>
+      <strong>HI-FI</strong>
+    </div>
+    <div class="stat">
+      <span>STATION</span>
+      <strong id="infoStation">SMOKE</strong>
+    </div>
+
+    <div class="now-card">
+      <span>ON AIR</span>
+      <strong id="sideTrack">CONNECTING...</strong>
+      <small id="sideArtist">4.20 INTERNET RADIO</small>
+    </div>
+
+    <div class="info-note">
+      SMOKE FM / EST. 2012<br>
+      REIMAGINED 2026<br><br>
+      KEEP THE LIGHTS LOW.<br>
+      LET THE MUSIC RUN.
+    </div>
+  </aside>
 </section>
 
-<aside class="panel info-panel">
-  <div class="panel-head"><span>DECK INFO</span><b>LIVE</b></div>
-  <div class="stat"><span>LISTENERS</span><strong id="listeners">427</strong></div>
-  <div class="stat"><span>BITRATE</span><strong>320 KBPS</strong></div>
-  <div class="stat"><span>MODE</span><strong>HI-FI</strong></div>
-  <div class="stat"><span>STATION</span><strong id="infoStation">SMOKE</strong></div>
-
-  <div class="chat">
-    <div class="chat-head">LOUNGE / CHAT <span>LIVE</span></div>
-    <div class="chat-messages" id="chatMessages">
-      <p><b>milo420:</b> that bass tho</p>
-      <p><b>westside:</b> midnight station 🔥</p>
-      <p><b>cassettekid:</b> this site is crazy</p>
-      <p><b>J4Y:</b> who remembers 2012?</p>
-    </div>
-    <div class="chat-input"><input id="chatInput" maxlength="80" placeholder="say something..."><button id="chatSend">SEND</button></div>
-  </div>
-  <div class="info-note">SMOKE FM / EST. 2012<br>REIMAGINED 2026<br><br>KEEP THE LIGHTS LOW.</div>
-</aside>
+<section class="ticker">
+  <b>HOTLINE</b>
+  <div>YOU ARE LISTENING TO SMOKE FM // 4.20 INTERNET RADIO // NO REQUESTS AFTER 2AM // KEEP THE LIGHTS LOW // TURN IT UP // </div>
 </section>
 
-<section class="ticker"><b>HOTLINE</b><div>YOU ARE LISTENING TO SMOKE FM // 4.20 INTERNET RADIO // NO REQUESTS AFTER 2AM // KEEP THE LIGHTS LOW // TURN IT UP // </div></section>
-<footer><span>EST. 2012 / REIMAGINED 2026</span><span>◎ ONLINE</span><span>SMOKE FM v2.0</span></footer>
+<footer>
+  <span>EST. 2012 / REIMAGINED 2026</span>
+  <span>◎ ONLINE</span>
+  <span>SMOKE FM v3.0</span>
+</footer>
 </main>
+
 <script src="app.js"></script>
 </body>
 </html>

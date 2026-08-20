@@ -1,3 +1,127 @@
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#050705;color:#e6e9df;font-family:Inter,Arial,sans-serif}body{overflow-x:hidden}.noise,.scanlines,.vignette{position:fixed;inset:0;pointer-events:none}.noise{z-index:40;opacity:.065;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}.scanlines{z-index:39;opacity:.12;background:repeating-linear-gradient(0deg,transparent 0,transparent 3px,rgba(180,210,140,.055) 4px)}.vignette{z-index:38;box-shadow:inset 0 0 170px #000, inset 0 0 40px #000}.site{position:relative;z-index:3;width:min(1420px,94vw);margin:auto;padding:28px 0 18px}.topbar{height:65px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #22291f;margin-bottom:18px}.brand{display:flex;align-items:center;gap:11px}.brand-badge{font:20px "Share Tech Mono";letter-spacing:-3px;color:#b2d774;border:1px solid #5c7040;padding:4px 6px;box-shadow:0 0 15px #8fb55c20}.brand-name{font-weight:900;letter-spacing:.19em;font-size:21px}.brand-sub{font:8px "Share Tech Mono";color:#596253;letter-spacing:.3em;margin-top:3px}.live-status{font:9px "Share Tech Mono";color:#6c7665;display:flex;gap:9px;align-items:center}.live-status b{color:#9fc66a;font-weight:400}.led{width:6px;height:6px;border-radius:50%;background:#a9d36a;box-shadow:0 0 12px #a9d36a;animation:blink 1.4s infinite}@keyframes blink{50%{opacity:.35}}.radio-grid{display:grid;grid-template-columns:235px minmax(500px,1fr) 235px;gap:14px}.panel{border:1px solid #252d21;background:linear-gradient(145deg,#0d100dF2,#080a08F7);box-shadow:0 25px 80px #000b;position:relative}.station-panel,.info-panel{padding:16px}.panel-head{display:flex;justify-content:space-between;color:#5f6958;font:9px "Share Tech Mono";letter-spacing:.15em;padding-bottom:12px;border-bottom:1px solid #232a20}.panel-head b{color:#849375;font-weight:400}.station{width:100%;position:relative;background:transparent;border:0;border-bottom:1px solid #20261d;color:#65705f;text-align:left;padding:14px 4px 13px 0;display:grid;grid-template-columns:25px 1fr 10px;cursor:pointer}.station:hover,.station.active{color:#dce5d1}.station.active:before{content:"";position:absolute;left:-17px;top:0;bottom:0;width:2px;background:#a9cf69;box-shadow:0 0 10px #a9cf69}.station em{font:8px "Share Tech Mono";font-style:normal;color:#4e594a}.station strong{font-size:10px;letter-spacing:.12em}.station small{font-size:8px;color:#505a4c;margin-top:4px}.station i{font-style:normal;font-size:5px;color:#323a2e;align-self:center}.station.active i{color:#a9cf69;text-shadow:0 0 7px #a9cf69}.station-note,.info-note{font:8px/1.7 "Share Tech Mono";color:#475043;margin-top:18px}.station-note span{color:#8eab68}.player{padding:17px 24px 12px;overflow:hidden}.player-top{display:flex;justify-content:space-between;align-items:center}.eyebrow,.freq,.source-note,.deck,.time,.station-tag{font-family:"Share Tech Mono"}.eyebrow{font-size:9px;color:#7d8974;letter-spacing:.2em}.air-tag{font:7px "Share Tech Mono";color:#a9d16d;border:1px solid #4f6538;padding:3px 5px;margin-left:8px}.freq{font-size:10px;color:#a9cf69}.tuner{height:34px;margin:9px 0 2px;display:flex;align-items:end;justify-content:center;gap:4px;color:#4b5645;font:7px "Share Tech Mono"}.tuner i{width:2px;height:7px;background:#59664d}.tuner i:nth-of-type(2n){height:13px}.tuner i:nth-of-type(4n){height:18px}.tuner b{color:#a8cc70;font:10px "Share Tech Mono";padding:0 6px;text-shadow:0 0 10px #8eb55b}.art-frame{width:min(420px,62vw);aspect-ratio:1;margin:0 auto 14px;padding:6px;border:1px solid #46533d;background:#080a08;box-shadow:0 0 0 1px #10150f,0 20px 55px #000}.art-art{width:100%;height:100%;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 45%,#52643d,#161d13 52%,#080a08);display:grid;place-items:center;background-repeat:no-repeat}.art-art:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 49%,#ffffff0a 50%,transparent 51%),repeating-linear-gradient(0deg,#fff0 0 3px,#fff1 4px 5px);mix-blend-mode:screen;opacity:.35}.record{width:68%;aspect-ratio:1;border-radius:50%;background:repeating-radial-gradient(circle,#090b09 0 2px,#161a14 3px 5px);box-shadow:0 10px 35px #000;display:grid;place-items:center;animation:spin 9s linear infinite paused}.visualizer.playing~*{}body:has(#visualizer.playing) .record{animation-play-state:running}@keyframes spin{to{transform:rotate(360deg)}}.record-label{width:30%;aspect-ratio:1;border-radius:50%;background:#a9cf69;color:#11170d;display:grid;place-items:center;text-align:center;font:900 clamp(11px,2vw,18px) "Share Tech Mono";line-height:.8}.record-label small{font-size:.55em;letter-spacing:.25em;margin-left:.2em}.art-overlay{position:absolute;inset:0;background:radial-gradient(circle,transparent 30%,#020302aa 100%)}.art-stamp,.art-side{position:absolute;font:8px "Share Tech Mono";color:#c5d8a5;border:1px solid #849c62;padding:6px;background:#05070588;z-index:2}.art-stamp{top:10%;left:9%;transform:rotate(-5deg)}.art-stamp small{font-size:6px;color:#83916f}.art-side{right:10%;top:12%;transform:rotate(8deg)}.track{text-align:center}.station-tag{font-size:8px;color:#8fac69;letter-spacing:.25em}.track h1{font-size:24px;line-height:1.1;margin:7px 0 5px;letter-spacing:-.04em}.track p{margin:0;color:#5d6659;font:8px "Share Tech Mono";letter-spacing:.12em}.progress-wrap{margin:17px 3px 6px}.progress-hit{height:8px;padding:3px 0;cursor:pointer;position:relative}.progress-hit:before{content:"";position:absolute;left:0;right:0;top:3px;height:2px;background:#252c22}.progress-hit span{position:absolute;left:0;top:3px;height:2px;width:0;background:#a9cf69;box-shadow:0 0 10px #a9cf69}.progress-hit b{position:absolute;top:0;left:0;width:7px;height:7px;border-radius:50%;background:#c6df9c;box-shadow:0 0 8px #9fc66b;transform:translateX(-50%)}.time{display:flex;justify-content:space-between;font-size:8px;color:#596356}.controls{display:flex;justify-content:center;align-items:center;gap:12px;margin:11px 0}.control,.main-play{border:1px solid #2c3527;background:#0d110c;color:#aab4a1;cursor:pointer;font-family:"Share Tech Mono"}.control{width:34px;height:34px;font-size:11px}.control:hover{border-color:#718956;color:#d7e5c9}.main-play{width:54px;height:54px;border-radius:50%;background:#a9cf69;color:#0c1109;border-color:#a9cf69;font-size:17px;box-shadow:0 0 28px #9fc66b3d}.deck{display:flex;align-items:center;gap:14px;border-top:1px solid #20271e;padding-top:10px;color:#596354;font-size:7px}.deck-left,.deck-right{white-space:nowrap}.deck-left b{color:#9ec46b;margin-left:4px;font-weight:400}.deck-right i{color:#9ec46b;font-style:normal}.volume{flex:1;display:flex;align-items:center;gap:7px}.volume input{width:100%;accent-color:#a9cf69}.visualizer{height:25px;display:flex;justify-content:center;align-items:end;gap:3px;margin-top:9px}.visualizer i{height:4px;width:3px;background:#789a51;opacity:.35}.visualizer.playing i{animation:bars .55s ease-in-out infinite alternate}.visualizer i:nth-child(2n){animation-delay:.08s}.visualizer i:nth-child(3n){animation-delay:.16s}.visualizer i:nth-child(4n){animation-delay:.25s}@keyframes bars{to{height:22px;opacity:.85}}.source-note{text-align:center;font-size:7px;color:#4c5748;margin-top:5px;letter-spacing:.1em}.source-note b{color:#778f5b;font-weight:400}.source-note span{padding:0 6px;color:#3c4638}.stat{display:flex;justify-content:space-between;border-bottom:1px solid #20271e;padding:12px 0}.stat span{font:7px "Share Tech Mono";color:#596355}.stat strong{font:10px "Share Tech Mono";color:#a4c776;font-weight:400}.chat{margin-top:16px;border:1px solid #232b21;background:#070907}.chat-head{font:8px "Share Tech Mono";color:#697464;padding:9px;border-bottom:1px solid #222a20}.chat-head span{float:right;color:#9fc56a}.chat-messages{height:150px;overflow:auto;padding:9px;font:8px/1.7 "Share Tech Mono";color:#687263}.chat-messages p{margin:0 0 6px}.chat-messages b{color:#a1b786}.chat-input{display:flex;border-top:1px solid #222a20}.chat-input input{flex:1;min-width:0;background:#090b09;border:0;outline:0;color:#cbd4c4;padding:8px;font:8px "Share Tech Mono"}.chat-input button{background:#11160e;color:#99bc6a;border:0;border-left:1px solid #222a20;font:7px "Share Tech Mono";padding:0 8px}.ticker{height:29px;margin-top:13px;border:1px solid #252d21;background:#080a08;display:flex;align-items:center;overflow:hidden}.ticker b{height:100%;display:grid;place-items:center;padding:0 10px;border-right:1px solid #252d21;color:#a9cf69;font:8px "Share Tech Mono"}.ticker div{white-space:nowrap;font:8px "Share Tech Mono";color:#555f51;animation:ticker 25s linear infinite;padding-left:100%}@keyframes ticker{to{transform:translateX(-100%)}}footer{display:flex;justify-content:space-between;color:#424b40;font:7px "Share Tech Mono";padding-top:9px}.smoke{position:fixed;z-index:1;width:50vw;height:50vw;border-radius:50%;filter:blur(65px);background:#b8c5a2;opacity:.065}.smoke-a{left:-17vw;bottom:-20vw;animation:drift 16s ease-in-out infinite}.smoke-b{right:-20vw;top:18vh;animation:drift 21s ease-in-out infinite reverse}.smoke-c{left:35vw;top:-35vw;animation:drift 25s ease-in-out infinite}@keyframes drift{50%{transform:translate(9vw,-5vw) scale(1.3)}}.ash i{position:fixed;z-index:2;width:2px;height:2px;border-radius:50%;background:#c8d3b8;opacity:.15;left:var(--x);top:110%;animation:ash 12s linear infinite}.ash i:nth-child(1){--x:12%;animation-delay:0s}.ash i:nth-child(2){--x:25%;animation-delay:3s}.ash i:nth-child(3){--x:41%;animation-delay:6s}.ash i:nth-child(4){--x:58%;animation-delay:1s}.ash i:nth-child(5){--x:72%;animation-delay:5s}.ash i:nth-child(6){--x:84%;animation-delay:8s}.ash i:nth-child(7){--x:33%;animation-delay:10s}.ash i:nth-child(8){--x:91%;animation-delay:4s}@keyframes ash{to{top:-5%;transform:translateX(30px)}}.boot{position:fixed;inset:0;z-index:100;background:#040504;display:grid;place-items:center;transition:.6s}.boot.hide{opacity:0;pointer-events:none}.boot-card{text-align:center;width:min(420px,80vw)}.boot-logo{font:900 45px "Share Tech Mono";letter-spacing:-.08em}.boot-logo span{color:#a9cf69}.boot-copy{font:8px "Share Tech Mono";color:#65705f;letter-spacing:.15em;margin:17px 0}.boot-meter{height:2px;background:#1c2419}.boot-meter span{display:block;height:100%;background:#a9cf69;animation:load 1.7s forwards}@keyframes load{to{width:100%}}.boot-small{font:7px "Share Tech Mono";color:#384033;margin-top:9px}@media(max-width:1050px){.radio-grid{grid-template-columns:1fr}.station-panel,.info-panel{display:grid;grid-template-columns:repeat(2,1fr);gap:0 14px}.panel-head,.station-note,.info-note{grid-column:1/-1}.station{padding:10px 3px}.chat{grid-column:1/-1}.art-frame{width:min(500px,72vw)}}@media(max-width:600px){.site{width:94vw;padding-top:12px}.topbar{height:56px}.brand-name{font-size:17px}.live-status{font-size:8px}.player{padding:13px}.art-frame{width:78vw}.track h1{font-size:20px}.footer-row{font-size:6px}.station-panel,.info-panel{display:block}}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#050705;color:#e8ece1;font-family:Inter,Arial,sans-serif}
+body{overflow-x:hidden}
+.noise,.scanlines,.vignette{position:fixed;inset:0;pointer-events:none}
+.noise{z-index:40;opacity:.055;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.scanlines{z-index:39;opacity:.09;background:repeating-linear-gradient(0deg,transparent 0,transparent 3px,rgba(180,210,140,.045) 4px)}
+.vignette{z-index:38;box-shadow:inset 0 0 180px #000,inset 0 0 45px #000}
+.site{position:relative;z-index:3;width:min(1500px,95vw);margin:auto;padding:24px 0 18px}
+.topbar{height:68px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #22291f;margin-bottom:18px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-badge{font:21px "Share Tech Mono";letter-spacing:-3px;color:#b6db79;border:1px solid #607546;padding:4px 7px;box-shadow:0 0 16px #8fb55c22}
+.brand-name{font-size:22px;font-weight:900;letter-spacing:.18em}
+.brand-sub{font:8px "Share Tech Mono";color:#5d6856;letter-spacing:.28em;margin-top:3px}
+.live-status{font:9px "Share Tech Mono";color:#697463;display:flex;gap:9px;align-items:center}
+.live-status b{color:#a9d16b;font-weight:400}
+.led{width:6px;height:6px;border-radius:50%;background:#a9d16b;box-shadow:0 0 12px #a9d16b;animation:blink 1.4s infinite}
+@keyframes blink{50%{opacity:.35}}
 
-.youtube-dock{position:fixed;right:16px;bottom:16px;z-index:60;width:286px;padding:5px;background:#080b07;border:1px solid #3b4932;box-shadow:0 12px 35px #000c;transition:.25s}.youtube-dock.closed{width:88px;height:24px;overflow:hidden}.dock-label{height:18px;font:7px "Share Tech Mono";color:#91aa6b;display:flex;justify-content:space-between;align-items:center}.dock-label button{background:none;border:0;color:#7d8a71;cursor:pointer;font-size:12px}.youtube-dock iframe{display:block;width:280px;height:158px;border:0}@media(max-width:600px){.youtube-dock{right:8px;bottom:8px;transform:scale(.8);transform-origin:bottom right}}
+.radio-grid{display:grid;grid-template-columns:260px minmax(600px,1fr) 260px;gap:16px}
+.panel{border:1px solid #293124;background:linear-gradient(145deg,#0d110df4,#070907f8);box-shadow:0 28px 90px #000c;position:relative}
+.station-panel,.info-panel{padding:18px}
+.panel-head{display:flex;justify-content:space-between;color:#65705e;font:9px "Share Tech Mono";letter-spacing:.16em;padding-bottom:13px;border-bottom:1px solid #242c20}
+.panel-head b{color:#829272;font-weight:400}
+
+.station{width:100%;position:relative;background:transparent;border:0;border-bottom:1px solid #20271e;color:#667161;text-align:left;padding:15px 4px;display:grid;grid-template-columns:27px 1fr 10px;cursor:pointer}
+.station:hover,.station.active{color:#e0e8d6}
+.station.active:before{content:"";position:absolute;left:-19px;top:0;bottom:0;width:2px;background:#a9cf69;box-shadow:0 0 12px #a9cf69}
+.station em{font:8px "Share Tech Mono";font-style:normal;color:#4c5748}
+.station strong{font-size:11px;letter-spacing:.12em}
+.station small{display:block;font-size:8px;color:#505b4c;margin-top:4px}
+.station i{font-style:normal;font-size:5px;color:#30392d;align-self:center}
+.station.active i{color:#a9cf69;text-shadow:0 0 8px #a9cf69}
+
+.playlist-card{margin-top:18px;border:1px solid #252d21;padding:13px;background:#090c09}
+.playlist-card span{display:block;font:7px "Share Tech Mono";color:#596554;letter-spacing:.15em}
+.playlist-card b{display:block;font:9px "Share Tech Mono";color:#9fbe72;margin-top:5px}
+.playlist-card small{display:block;font:7px "Share Tech Mono";color:#3f493d;margin-top:8px;line-height:1.6}
+
+.player{padding:18px 30px 13px;overflow:hidden}
+.player-top{display:flex;justify-content:space-between;align-items:center}
+.eyebrow,.freq,.source-note,.deck,.time,.station-tag{font-family:"Share Tech Mono"}
+.eyebrow{font-size:9px;color:#7d8974;letter-spacing:.2em}
+.air-tag{font:7px "Share Tech Mono";color:#acd270;border:1px solid #50683a;padding:3px 5px;margin-left:8px}
+.freq{font-size:10px;color:#a9cf69}
+
+.tuner{height:31px;margin:7px 0 3px;display:flex;align-items:end;justify-content:center;gap:4px;color:#4b5645;font:7px "Share Tech Mono"}
+.tuner i{width:2px;height:7px;background:#59664d}.tuner i:nth-of-type(2n){height:13px}.tuner i:nth-of-type(4n){height:18px}
+.tuner b{color:#a8cc70;font:10px "Share Tech Mono";padding:0 7px;text-shadow:0 0 10px #8eb55b}
+
+.hero-art{width:min(520px,58vw);aspect-ratio:1;margin:0 auto 15px;padding:7px;border:1px solid #4a5740;background:#080a08;box-shadow:0 0 0 1px #10150f,0 22px 60px #000}
+.art-art{width:100%;height:100%;position:relative;overflow:hidden;display:grid;place-items:center;background:#151b12;background-position:center;background-size:cover;background-repeat:no-repeat}
+.art-vignette{position:absolute;inset:0;background:radial-gradient(circle at center,transparent 28%,#020302bb 100%),linear-gradient(90deg,#02030255,transparent 50%,#02030255)}
+.record{width:66%;aspect-ratio:1;border-radius:50%;background:repeating-radial-gradient(circle,#090b09 0 2px,#171c14 3px 5px);box-shadow:0 12px 40px #000;display:grid;place-items:center;animation:spin 9s linear infinite paused;position:relative;z-index:2}
+.record:after{content:"";position:absolute;left:50%;top:0;width:1px;height:50%;background:#ffffff16}
+.record-label{width:29%;aspect-ratio:1;border-radius:50%;background:#a9cf69;color:#10150d;display:grid;place-items:center;text-align:center;font:900 clamp(11px,1.8vw,18px) "Share Tech Mono";line-height:.8}
+.record-label small{font-size:.5em;letter-spacing:.2em}
+.art-stamp,.art-side,.art-bottom{position:absolute;z-index:3;font:8px "Share Tech Mono";color:#c4d8a1;border:1px solid #849d62;padding:6px;background:#05070599}
+.art-stamp{left:8%;top:9%;transform:rotate(-5deg)}
+.art-stamp small{font-size:6px;color:#83916f}
+.art-side{right:9%;top:10%;transform:rotate(8deg)}
+.art-bottom{left:8%;bottom:8%;border:0;padding:0;color:#d2e0bd;font-size:7px;letter-spacing:.12em}
+body:has(#visualizer.playing) .record{animation-play-state:running}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.track{text-align:center}
+.station-tag{font-size:8px;color:#8fac69;letter-spacing:.25em}
+.track h1{font-size:28px;line-height:1.1;margin:7px 0 5px;letter-spacing:-.045em}
+.track p{margin:0;color:#5d6659;font:8px "Share Tech Mono";letter-spacing:.12em}
+.progress-wrap{margin:18px 3px 6px}
+.progress-hit{height:8px;padding:3px 0;cursor:pointer;position:relative}
+.progress-hit:before{content:"";position:absolute;left:0;right:0;top:3px;height:2px;background:#252d22}
+.progress-hit span{position:absolute;left:0;top:3px;height:2px;width:0;background:#a9cf69;box-shadow:0 0 10px #a9cf69}
+.progress-hit b{position:absolute;top:0;left:0;width:7px;height:7px;border-radius:50%;background:#c6df9c;box-shadow:0 0 8px #9fc66b;transform:translateX(-50%)}
+.time{display:flex;justify-content:space-between;font-size:8px;color:#596356}
+.controls{display:flex;justify-content:center;align-items:center;gap:12px;margin:12px 0}
+.control,.main-play{border:1px solid #2c3527;background:#0d110c;color:#aab4a1;cursor:pointer;font-family:"Share Tech Mono"}
+.control{width:37px;height:37px;font-size:11px}
+.control:hover{border-color:#718956;color:#d7e5c9}
+.main-play{width:58px;height:58px;border-radius:50%;background:#a9cf69;color:#0c1109;border-color:#a9cf69;font-size:18px;box-shadow:0 0 30px #9fc66b44}
+.deck{display:flex;align-items:center;gap:14px;border-top:1px solid #20271e;padding-top:11px;color:#596354;font-size:7px}
+.deck-left,.deck-right{white-space:nowrap}
+.deck-left b{color:#9ec46b;margin-left:4px;font-weight:400}
+.deck-right i{color:#9ec46b;font-style:normal}
+.volume{flex:1;display:flex;align-items:center;gap:7px}.volume input{width:100%;accent-color:#a9cf69}
+.visualizer{height:27px;display:flex;justify-content:center;align-items:end;gap:3px;margin-top:9px}
+.visualizer i{height:4px;width:3px;background:#789a51;opacity:.35}
+.visualizer.playing i{animation:bars .55s ease-in-out infinite alternate}
+.visualizer i:nth-child(2n){animation-delay:.08s}.visualizer i:nth-child(3n){animation-delay:.16s}.visualizer i:nth-child(4n){animation-delay:.25s}
+@keyframes bars{to{height:24px;opacity:.9}}
+.source-note{text-align:center;font-size:7px;color:#4c5748;margin-top:5px;letter-spacing:.1em}.source-note b{color:#778f5b;font-weight:400}.source-note span{padding:0 6px;color:#3c4638}
+
+.live-card{display:flex;align-items:center;gap:10px;border:1px solid #263021;background:#090c09;padding:13px;margin-top:14px}
+.live-icon{width:27px;height:27px;border:1px solid #596e41;border-radius:50%;display:grid;place-items:center}.live-icon span{width:7px;height:7px;border-radius:50%;background:#a9cf69;box-shadow:0 0 10px #a9cf69;animation:blink 1.4s infinite}
+.live-card b{display:block;font:9px "Share Tech Mono";color:#a9cf69}.live-card small{display:block;font:7px "Share Tech Mono";color:#4f594c;margin-top:4px}
+.stat{display:flex;justify-content:space-between;border-bottom:1px solid #20271e;padding:13px 0}.stat span{font:7px "Share Tech Mono";color:#596355}.stat strong{font:10px "Share Tech Mono";color:#a4c776;font-weight:400}
+.now-card{margin-top:15px;padding:14px;border-left:2px solid #a9cf69;background:linear-gradient(90deg,#11170e,#090b09)}
+.now-card span{display:block;font:7px "Share Tech Mono";color:#789357;letter-spacing:.15em}
+.now-card strong{display:block;font-size:13px;margin-top:7px;line-height:1.25}
+.now-card small{display:block;font:7px "Share Tech Mono";color:#566052;margin-top:5px}
+.info-note{font:8px/1.7 "Share Tech Mono";color:#475043;margin-top:18px}
+
+.ticker{height:29px;margin-top:13px;border:1px solid #252d21;background:#080a08;display:flex;align-items:center;overflow:hidden}
+.ticker b{height:100%;display:grid;place-items:center;padding:0 10px;border-right:1px solid #252d21;color:#a9cf69;font:8px "Share Tech Mono"}
+.ticker div{white-space:nowrap;font:8px "Share Tech Mono";color:#555f51;animation:ticker 25s linear infinite;padding-left:100%}
+@keyframes ticker{to{transform:translateX(-100%)}}
+footer{display:flex;justify-content:space-between;color:#424b40;font:7px "Share Tech Mono";padding-top:9px}
+
+.smoke{position:fixed;z-index:1;width:50vw;height:50vw;border-radius:50%;filter:blur(65px);background:#b8c5a2;opacity:.065}
+.smoke-a{left:-17vw;bottom:-20vw;animation:drift 16s ease-in-out infinite}.smoke-b{right:-20vw;top:18vh;animation:drift 21s ease-in-out infinite reverse}.smoke-c{left:35vw;top:-35vw;animation:drift 25s ease-in-out infinite}
+@keyframes drift{50%{transform:translate(9vw,-5vw) scale(1.3)}}
+
+.boot{position:fixed;inset:0;z-index:100;background:#040504;display:grid;place-items:center;transition:.6s}.boot.hide{opacity:0;pointer-events:none}
+.boot-card{text-align:center;width:min(420px,80vw)}.boot-logo{font:900 45px "Share Tech Mono";letter-spacing:-.08em}.boot-logo span{color:#a9cf69}.boot-copy{font:8px "Share Tech Mono";color:#65705f;letter-spacing:.15em;margin:17px 0}.boot-meter{height:2px;background:#1c2419}.boot-meter span{display:block;height:100%;background:#a9cf69;animation:load 1.7s forwards}.boot-small{font:7px "Share Tech Mono";color:#384033;margin-top:9px}
+@keyframes load{to{width:100%}}
+
+.youtube-source{position:fixed;left:-10000px;top:-10000px;width:1px;height:1px;opacity:.01;pointer-events:none}
+
+@media(max-width:1100px){
+.radio-grid{grid-template-columns:1fr}
+.station-panel,.info-panel{display:grid;grid-template-columns:repeat(2,1fr);gap:0 18px}
+.panel-head,.playlist-card,.live-card,.now-card,.info-note{grid-column:1/-1}
+.station{padding:11px 3px}.hero-art{width:min(520px,72vw)}
+}
+@media(max-width:650px){
+.site{width:94vw;padding-top:12px}.topbar{height:58px}.brand-name{font-size:17px}.live-status{font-size:8px}
+.player{padding:14px}.hero-art{width:80vw}.track h1{font-size:21px}.station-panel,.info-panel{display:block}
+}
