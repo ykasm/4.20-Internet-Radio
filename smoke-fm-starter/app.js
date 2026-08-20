@@ -1,207 +1,112 @@
-const PLAYLIST_ID = "PLMwCOELsaIao";
-let player = null;
-let playerReady = false;
-let pendingPlay = false;
-let muted = false;
-let progressTimer = null;
-let currentTitle = "";
+const PLAYLIST_ID="PLMwCOELsaIao";
+let player=null,ready=false,pending=false,muted=false,timer=null,station="SMOKE",title="";
 
-const $ = (id) => document.getElementById(id);
-const format = (n) => {
-  n = Math.max(0, Math.floor(Number(n) || 0));
-  return `${String(Math.floor(n/60)).padStart(2,"0")}:${String(n%60).padStart(2,"0")}`;
-};
+const $=id=>document.getElementById(id);
+const fmt=n=>{n=Math.max(0,Math.floor(Number(n)||0));return `${String(Math.floor(n/60)).padStart(2,"0")}:${String(n%60).padStart(2,"0")}`};
 
-function signal(t){ $("signalText").textContent = t; }
-function button(playing){
-  $("playBtn").textContent = playing ? "Ⅱ" : "▶";
-  $("visualizer").classList.toggle("playing", playing);
+function signal(s){$("signalText").textContent=s}
+function playing(v){$("playBtn").textContent=v?"Ⅱ":"▶";$("visualizer").classList.toggle("playing",v)}
+function updateInfo(){
+ if(!ready)return;
+ const d=player.getVideoData?player.getVideoData():{};
+ const t=d.title||"4.20 INTERNET RADIO";
+ title=t;$("trackTitle").textContent=t;$("trackArtist").textContent="4.20 INTERNET RADIO — YOUTUBE";
+ $("stationLabel").textContent=station;$("infoStation").textContent=station;document.title=`${t} — SMOKE FM`;
+ if(d.video_id){
+   $("albumArt").style.backgroundImage=`linear-gradient(rgba(4,7,4,.12),rgba(4,7,4,.5)),url("https://i.ytimg.com/vi/${d.video_id}/hqdefault.jpg")`;
+   $("albumArt").style.backgroundSize="cover";$("albumArt").style.backgroundPosition="center";
+ }
 }
-
-function updateTrack(){
-  if(!playerReady) return;
-  const d = player.getVideoData ? player.getVideoData() : {};
-  const title = d.title || "4.20 INTERNET RADIO";
-  if(title === currentTitle) return;
-  currentTitle = title;
-  $("stationLabel").textContent = "4.20 INTERNET RADIO";
-  $("trackTitle").textContent = title;
-  $("trackArtist").textContent = "YOUTUBE RADIO";
-  document.title = `${title} — SMOKE FM`;
-  if(d.video_id){
-    $("albumArt").style.backgroundImage =
-      `linear-gradient(rgba(4,7,4,.18),rgba(4,7,4,.5)),url("https://i.ytimg.com/vi/${d.video_id}/hqdefault.jpg")`;
-    $("albumArt").style.backgroundSize="cover";
-    $("albumArt").style.backgroundPosition="center";
-  }
+function updateProgress(){
+ if(!ready)return;
+ const d=player.getDuration(),c=player.getCurrentTime();
+ const pct=d?Math.min(100,c/d*100):0;
+ $("progressFill").style.width=pct+"%";$("progressHit").querySelector("b").style.left=pct+"%";
+ $("currentTime").textContent=fmt(c);$("duration").textContent=fmt(d);
 }
+function start(){clearInterval(timer);timer=setInterval(updateProgress,500)}
+function stop(){clearInterval(timer);timer=null}
 
-function progress(){
-  if(!playerReady) return;
-  const dur=player.getDuration(), cur=player.getCurrentTime();
-  $("progressFill").style.width = dur ? `${cur/dur*100}%` : "0%";
-  $("currentTime").textContent=format(cur);
-  $("duration").textContent=format(dur);
+function startPlayback(){
+ if(!ready){pending=true;signal("LOADING");return}
+ pending=true;player.playVideo();
 }
-
-function startProgress(){
-  clearInterval(progressTimer);
-  progressTimer=setInterval(progress,500);
+function toggle(){
+ if(!ready){pending=true;signal("LOADING");return}
+ const s=player.getPlayerState();
+ if(s===YT.PlayerState.PLAYING)player.pauseVideo();else startPlayback();
 }
-
-function stopProgress(){
-  clearInterval(progressTimer);
-  progressTimer=null;
-}
-
-function play(){
-  if(!playerReady){
-    pendingPlay=true;
-    signal("LOADING");
-    return;
-  }
-  pendingPlay=true;
-  player.playVideo();
-}
-
-function pause(){
-  if(playerReady) player.pauseVideo();
-}
-
-function next(){
-  if(playerReady) player.nextVideo();
-}
-
-function previous(){
-  if(playerReady) player.previousVideo();
-}
-
+function next(){if(ready)player.nextVideo()}
+function prev(){if(ready)player.previousVideo()}
 function shuffle(){
-  if(!playerReady) return;
-  player.setShuffle(true);
-  const list=player.getPlaylist() || [];
-  if(list.length) player.playVideoAt(Math.floor(Math.random()*list.length));
+ if(!ready)return;
+ player.setShuffle(true);
+ const list=player.getPlaylist()||[];
+ if(list.length>1)player.playVideoAt(Math.floor(Math.random()*list.length));
 }
-
-function onReady(){
-  playerReady=true;
-  signal("READY");
-  player.setVolume(Number($("volume").value));
-  player.cuePlaylist({listType:"playlist",list:PLAYLIST_ID,index:0});
-  setTimeout(()=>{
-    updateTrack();
-    progress();
-    if(pendingPlay) player.playVideo();
-  },700);
-}
-
-function onState(e){
-  switch(e.data){
-    case YT.PlayerState.PLAYING:
-      button(true); signal("PLAYING"); updateTrack(); startProgress(); break;
-    case YT.PlayerState.PAUSED:
-      button(false); signal("PAUSED"); stopProgress(); progress(); break;
-    case YT.PlayerState.BUFFERING:
-      signal("BUFFERING"); break;
-    case YT.PlayerState.CUED:
-      button(false); signal("READY"); updateTrack(); progress(); break;
-    case YT.PlayerState.ENDED:
-      button(false); stopProgress(); setTimeout(updateTrack,300); break;
-  }
-}
-
-function onError(e){
-  console.warn("YouTube player error",e.data);
-  signal(`YT ERROR ${e.data}`);
+function setStation(name){
+ station=name;
+ document.querySelectorAll(".station").forEach(b=>b.classList.toggle("active",b.dataset.station===name.toLowerCase()));
+ $("stationLabel").textContent=name;$("infoStation").textContent=name;
 }
 
 window.onYouTubeIframeAPIReady=()=>{
-  player=new YT.Player("youtube-player",{
-    width:"360",
-    height:"203",
-    playerVars:{
-      autoplay:0,
-      controls:1,
-      playsinline:1,
-      rel:0,
-      listType:"playlist",
-      list:PLAYLIST_ID,
-      origin:location.origin
-    },
-    events:{
-      onReady,
-      onStateChange:onState,
-      onError
-    }
-  });
+ player=new YT.Player("youtube-player",{
+   width:"280",height:"158",
+   playerVars:{autoplay:0,controls:1,playsinline:1,rel:0,listType:"playlist",list:PLAYLIST_ID,origin:location.origin},
+   events:{
+     onReady:()=>{
+       ready=true;signal("READY");player.setVolume(Number($("volume").value));
+       player.cuePlaylist({listType:"playlist",list:PLAYLIST_ID,index:0});
+       setTimeout(()=>{updateInfo();updateProgress();if(pending)player.playVideo()},800);
+     },
+     onStateChange:e=>{
+       if(e.data===YT.PlayerState.PLAYING){playing(true);signal("PLAYING");updateInfo();start()}
+       else if(e.data===YT.PlayerState.PAUSED){playing(false);signal("PAUSED");stop();updateProgress()}
+       else if(e.data===YT.PlayerState.BUFFERING){signal("BUFFERING")}
+       else if(e.data===YT.PlayerState.CUED){playing(false);signal("READY");updateInfo();updateProgress()}
+       else if(e.data===YT.PlayerState.ENDED){playing(false);stop();setTimeout(()=>{updateInfo();player.nextVideo()},350)}
+     },
+     onError:e=>{console.warn("YouTube error",e.data);signal("YT ERROR "+e.data)}
+   }
+ });
 };
 
-const host=document.createElement("div");
-host.id="youtube-player";
-host.style.position="fixed";
-host.style.right="14px";
-host.style.bottom="14px";
-host.style.width="360px";
-host.style.height="203px";
-host.style.zIndex="100";
-host.style.background="#000";
-host.style.border="1px solid #536643";
-host.style.boxShadow="0 8px 30px #000";
-document.body.appendChild(host);
+// YouTube remains an actual player on the page, but is reduced to a small source dock.
+// This keeps the playback source legitimate and gives a visible fallback if a browser blocks custom controls.
+const dock=document.createElement("div");
+dock.className="youtube-dock";
+dock.innerHTML='<div class="dock-label">YT SOURCE <button id="dockClose">×</button></div><div id="youtube-player"></div>';
+document.body.appendChild(dock);
+const yt=document.createElement("script");yt.src="https://www.youtube.com/iframe_api";document.head.appendChild(yt);
 
-const script=document.createElement("script");
-script.src="https://www.youtube.com/iframe_api";
-document.head.appendChild(script);
-
-$("playBtn").onclick=()=>{
-  if(playerReady){
-    const state=player.getPlayerState();
-    if(state===YT.PlayerState.PLAYING) pause();
-    else play();
-  } else {
-    pendingPlay=true;
-    signal("LOADING");
-  }
-};
+$("playBtn").onclick=toggle;
 $("nextBtn").onclick=next;
-$("prevBtn").onclick=previous;
+$("prevBtn").onclick=prev;
 $("shuffleBtn").onclick=shuffle;
-
 $("muteBtn").onclick=()=>{
-  if(!playerReady)return;
-  muted=!muted;
-  muted?player.mute():player.unMute();
-  $("muteBtn").textContent=muted?"×":"♫";
+ if(!ready)return;muted=!muted;muted?player.mute():player.unMute();$("muteBtn").textContent=muted?"×":"♫";
 };
-
 $("volume").oninput=e=>{
-  if(!playerReady)return;
-  const v=Number(e.target.value);
-  if(v===0){player.mute();muted=true;$("muteBtn").textContent="×";}
-  else {player.unMute();player.setVolume(v);muted=false;$("muteBtn").textContent="♫";}
+ if(!ready)return;const v=Number(e.target.value);
+ if(v===0){player.mute();muted=true;$("muteBtn").textContent="×"}
+ else{player.unMute();player.setVolume(v);muted=false;$("muteBtn").textContent="♫"}
 };
-
-$("progressFill").parentElement.onclick=e=>{
-  if(!playerReady)return;
-  const r=e.currentTarget.getBoundingClientRect();
-  const ratio=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));
-  player.seekTo(player.getDuration()*ratio,true);
+$("progressHit").onclick=e=>{
+ if(!ready)return;
+ const r=e.currentTarget.getBoundingClientRect(),x=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));
+ player.seekTo(player.getDuration()*x,true);
 };
-
-document.querySelectorAll(".station").forEach(b=>{
-  b.onclick=()=>document.querySelectorAll(".station").forEach(x=>x.classList.toggle("active",x===b));
-});
-
+document.querySelectorAll(".station").forEach(b=>b.onclick=()=>setStation(b.dataset.station.toUpperCase()));
 $("chatSend").onclick=()=>{
-  const i=$("chatInput");
-  if(!i.value.trim())return;
-  const p=document.createElement("p");
-  p.innerHTML=`<b>you:</b> ${i.value.replace(/[<>]/g,"")}`;
-  $("chatMessages").appendChild(p); i.value="";
+ const i=$("chatInput");if(!i.value.trim())return;
+ const p=document.createElement("p");p.innerHTML=`<b>you:</b> ${i.value.replace(/[<>]/g,"")}`;
+ $("chatMessages").appendChild(p);i.value="";$("chatMessages").scrollTop=$("chatMessages").scrollHeight;
 };
-
 $("chatInput").addEventListener("keydown",e=>{if(e.key==="Enter")$("chatSend").click()});
-function clock(){ $("clock").textContent=new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}); }
-setInterval(clock,1000); clock();
+$("dockClose").onclick=()=>{dock.classList.toggle("closed")};
+
+function clock(){$("clock").textContent=new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false})}
+setInterval(clock,1000);clock();
 setInterval(()=>$("listeners").textContent=410+Math.floor(Math.random()*48),5000);
 setTimeout(()=>$("boot").classList.add("hide"),1900);
