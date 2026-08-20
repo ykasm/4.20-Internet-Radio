@@ -19,13 +19,28 @@ function updateProgress(){
 function startTimer(){clearInterval(timer);timer=setInterval(updateProgress,500)}
 function stopTimer(){clearInterval(timer);timer=null}
 function toggle(){if(!ready){pending=true;signal("LOADING");return}if(player.getPlayerState()===YT.PlayerState.PLAYING)player.pauseVideo();else{pending=true;player.playVideo()}}
-function next(){if(ready)player.nextVideo()}
+function randomIndex(){
+ const list=player&&player.getPlaylist?player.getPlaylist()||[]:[];
+ if(list.length<=1)return 0;
+ const current=player.getPlaylistIndex?player.getPlaylistIndex():-1;
+ let index=Math.floor(Math.random()*list.length);
+ while(index===current) index=Math.floor(Math.random()*list.length);
+ return index;
+}
+function next(){if(!ready)return;player.playVideoAt(randomIndex())}
 function prev(){if(ready)player.previousVideo()}
-function shuffle(){if(!ready)return;player.setShuffle(true);const list=player.getPlaylist()||[];if(list.length>1)player.playVideoAt(Math.floor(Math.random()*list.length))}
+function shuffle(){if(!ready)return;player.playVideoAt(randomIndex())}
 function setStation(name){station=name;document.querySelectorAll(".station").forEach(b=>b.classList.toggle("active",b.dataset.station.toUpperCase()===name));$("stationLabel").textContent=name}
 window.onYouTubeIframeAPIReady=()=>{
- player=new YT.Player("youtube-player",{width:"280",height:"158",playerVars:{autoplay:0,controls:0,playsinline:1,rel:0,listType:"playlist",list:PLAYLIST_ID,origin:location.origin},events:{
- onReady:()=>{ready=true;signal("READY");player.setVolume(Number($("volume").value));player.cuePlaylist({listType:"playlist",list:PLAYLIST_ID,index:0});setTimeout(()=>{updateTrack();updateProgress();if(pending)player.playVideo()},700)},
+ player=new YT.Player("youtube-player",{width:"280",height:"158",playerVars:{autoplay:1,controls:0,playsinline:1,rel:0,listType:"playlist",list:PLAYLIST_ID,origin:location.origin},events:{
+ onReady:()=>{
+ ready=true;signal("READY");player.setVolume(Number($("volume").value));
+ setTimeout(()=>{
+  const list=player.getPlaylist()||[];
+  if(list.length){player.playVideoAt(Math.floor(Math.random()*list.length));}
+  updateTrack();updateProgress();if(pending)player.playVideo();
+ },500);
+},
  onStateChange:e=>{if(e.data===YT.PlayerState.PLAYING){setPlaying(true);signal("PLAYING");updateTrack();startTimer()}else if(e.data===YT.PlayerState.PAUSED){setPlaying(false);signal("PAUSED");stopTimer();updateProgress()}else if(e.data===YT.PlayerState.BUFFERING)signal("BUFFERING");else if(e.data===YT.PlayerState.CUED){setPlaying(false);signal("READY");updateTrack();updateProgress()}else if(e.data===YT.PlayerState.ENDED){setPlaying(false);stopTimer();setTimeout(next,250)}},
  onError:e=>signal("YT ERROR "+e.data)
  }})
