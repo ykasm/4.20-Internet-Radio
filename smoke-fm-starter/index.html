@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMOKE FM — 4.20 Internet Radio</title>
+  <meta name="description" content="SMOKE FM — 4.20 Internet Radio. Late-night hip-hop, clouds and old-web energy.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="noise"></div><div class="vignette"></div>
+<div class="smoke smoke-one"></div><div class="smoke smoke-two"></div><div class="smoke smoke-three"></div>
+
+<div class="boot" id="boot"><div class="boot-card">
+  <div class="boot-logo">SMOKE<span>FM</span></div>
+  <div class="boot-line">CONNECTING TO 4.20 INTERNET RADIO...</div>
+  <div class="boot-progress"><span></span></div>
+</div></div>
+
+<main class="shell">
+<header class="topbar">
+  <div class="brand"><div class="brand-mark">420</div><div><div class="brand-name">SMOKE FM</div><div class="brand-sub">4.20 INTERNET RADIO</div></div></div>
+  <div class="top-status"><span class="live-dot"></span><span>LIVE</span><span class="divider">//</span><span id="clock">00:00</span></div>
+</header>
+
+<section class="hero-grid">
+<aside class="side-panel left-panel">
+  <div class="panel-title">STATION</div>
+  <button class="station active" data-station="smoke"><span class="station-index">01</span><span><strong>SMOKE</strong><small>laid back / hazy</small></span></button>
+  <button class="station" data-station="afterhours"><span class="station-index">02</span><span><strong>AFTER HOURS</strong><small>slow / nocturnal</small></span></button>
+  <button class="station" data-station="cypher"><span class="station-index">03</span><span><strong>CYPHER</strong><small>bars / heavy drums</small></span></button>
+  <button class="station" data-station="purple"><span class="station-index">04</span><span><strong>PURPLE</strong><small>slow / chopped</small></span></button>
+  <button class="station" data-station="westcoast"><span class="station-index">05</span><span><strong>WEST COAST</strong><small>sunset / lowrider</small></span></button>
+  <div class="mini-note">CLICK A STATION<br>THEN HIT PLAY.</div>
+</aside>
+
+<section class="player-card">
+  <div class="player-head"><div><span class="eyebrow">NOW PLAYING</span><span class="live-chip">ON AIR</span></div><div class="frequency">FM 4.20</div></div>
+  <div class="visualizer" id="visualizer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="album-wrap"><div class="album-art" id="albumArt"><div class="album-grain"></div><div class="album-center">SMOKE<br><span>FM</span></div><div class="album-sticker">SIDE A</div></div></div>
+  <div class="track-meta"><div class="track-kicker" id="stationLabel">SMOKE</div><h1 id="trackTitle">Midnight Drive</h1><p id="trackArtist">SMOKE FM ORIGINAL — PLACEHOLDER STREAM</p></div>
+  <div class="progress"><div class="progress-line"><span id="progressFill"></span></div><div class="time"><span id="currentTime">00:00</span><span id="duration">02:48</span></div></div>
+  <div class="controls"><button class="icon-btn" id="shuffleBtn">↝</button><button class="icon-btn" id="prevBtn">◀</button><button class="play-btn" id="playBtn">▶</button><button class="icon-btn" id="nextBtn">▶|</button><button class="icon-btn" id="muteBtn">♫</button></div>
+  <div class="player-footer"><div class="equalizer-label">SIGNAL <span id="signalText">GOOD</span></div><div class="volume"><input id="volume" type="range" min="0" max="100" value="72"></div><div class="stereo">STEREO <span>◉</span></div></div>
+</section>
+
+<aside class="side-panel right-panel">
+  <div class="panel-title">DECK INFO</div>
+  <div class="stat-block"><span>LISTENERS</span><strong id="listeners">427</strong></div>
+  <div class="stat-block"><span>BITRATE</span><strong>320 KBPS</strong></div>
+  <div class="stat-block"><span>MODE</span><strong>HI-FI</strong></div>
+  <div class="chat-box"><div class="chat-title">LOUNGE / CHAT</div><div class="chat-messages" id="chatMessages">
+    <p><b>milo420:</b> that bass tho</p><p><b>westside:</b> midnight station 🔥</p><p><b>cassettekid:</b> this site is crazy</p><p><b>J4Y:</b> who remembers 2012?</p>
+  </div><div class="chat-input"><input id="chatInput" maxlength="80" placeholder="say something..."><button id="chatSend">SEND</button></div></div>
+  <div class="mini-note">SMOKE FM IS A CONCEPT RADIO UI.<br>ADD YOUR OWN LEGALLY STREAMABLE AUDIO TO GO LIVE.</div>
+</aside>
+</section>
+
+<section class="bottom-grid"><div class="ticker"><span>HOTLINE</span><div class="marquee">you are listening to SMOKE FM // 4.20 INTERNET RADIO // NO REQUESTS AFTER 2AM // KEEP THE LIGHTS LOW // </div></div>
+<div class="footer-row"><span>EST. 2012 / REIMAGINED 2026</span><span>◎ ONLINE</span><span>v1.0.0</span></div></section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
