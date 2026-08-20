@@ -1,278 +1,207 @@
 const PLAYLIST_ID = "PLMwCOELsaIao";
-
-const stations = {
-  smoke: { label: "SMOKE", description: "laid back / hazy" },
-  afterhours: { label: "AFTER HOURS", description: "slow / nocturnal" },
-  cypher: { label: "CYPHER", description: "bars / heavy drums" },
-  purple: { label: "PURPLE", description: "slow / chopped" },
-  westcoast: { label: "WEST COAST", description: "sunset / lowrider" }
-};
-
-let station = "smoke";
 let player = null;
 let playerReady = false;
-let wantToPlay = false;
+let pendingPlay = false;
 let muted = false;
 let progressTimer = null;
+let currentTitle = "";
 
 const $ = (id) => document.getElementById(id);
-const format = (seconds) => {
-  const s = Math.max(0, Math.floor(Number(seconds) || 0));
-  return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+const format = (n) => {
+  n = Math.max(0, Math.floor(Number(n) || 0));
+  return `${String(Math.floor(n/60)).padStart(2,"0")}:${String(n%60).padStart(2,"0")}`;
 };
 
-function setPlayButton(isPlaying) {
-  $("playBtn").textContent = isPlaying ? "Ⅱ" : "▶";
-  $("visualizer").classList.toggle("playing", isPlaying);
+function signal(t){ $("signalText").textContent = t; }
+function button(playing){
+  $("playBtn").textContent = playing ? "Ⅱ" : "▶";
+  $("visualizer").classList.toggle("playing", playing);
 }
 
-function updateSignal(text) {
-  $("signalText").textContent = text;
-}
-
-function updateTrackInfo() {
-  if (!playerReady || !player) return;
-  const data = player.getVideoData ? player.getVideoData() : {};
-  const title = data.title || "SMOKE FM — 4.20 INTERNET RADIO";
-  const videoId = data.video_id || "";
-
-  $("stationLabel").textContent = stations[station].label;
+function updateTrack(){
+  if(!playerReady) return;
+  const d = player.getVideoData ? player.getVideoData() : {};
+  const title = d.title || "4.20 INTERNET RADIO";
+  if(title === currentTitle) return;
+  currentTitle = title;
+  $("stationLabel").textContent = "4.20 INTERNET RADIO";
   $("trackTitle").textContent = title;
-  $("trackArtist").textContent = "4.20 INTERNET RADIO — YOUTUBE";
+  $("trackArtist").textContent = "YOUTUBE RADIO";
   document.title = `${title} — SMOKE FM`;
-
-  if (videoId) {
+  if(d.video_id){
     $("albumArt").style.backgroundImage =
-      `linear-gradient(135deg, rgba(5,7,5,.18), rgba(5,7,5,.68)), url("https://i.ytimg.com/vi/${videoId}/hqdefault.jpg")`;
-    $("albumArt").style.backgroundSize = "cover";
-    $("albumArt").style.backgroundPosition = "center";
+      `linear-gradient(rgba(4,7,4,.18),rgba(4,7,4,.5)),url("https://i.ytimg.com/vi/${d.video_id}/hqdefault.jpg")`;
+    $("albumArt").style.backgroundSize="cover";
+    $("albumArt").style.backgroundPosition="center";
   }
 }
 
-function updateProgress() {
-  if (!playerReady || !player) return;
-  const duration = player.getDuration ? player.getDuration() : 0;
-  const current = player.getCurrentTime ? player.getCurrentTime() : 0;
-  const percent = duration ? Math.min(100, (current / duration) * 100) : 0;
-  $("progressFill").style.width = `${percent}%`;
-  $("currentTime").textContent = format(current);
-  $("duration").textContent = format(duration);
+function progress(){
+  if(!playerReady) return;
+  const dur=player.getDuration(), cur=player.getCurrentTime();
+  $("progressFill").style.width = dur ? `${cur/dur*100}%` : "0%";
+  $("currentTime").textContent=format(cur);
+  $("duration").textContent=format(dur);
 }
 
-function startProgress() {
+function startProgress(){
   clearInterval(progressTimer);
-  progressTimer = setInterval(updateProgress, 500);
+  progressTimer=setInterval(progress,500);
 }
 
-function stopProgress() {
+function stopProgress(){
   clearInterval(progressTimer);
-  progressTimer = null;
+  progressTimer=null;
 }
 
-function togglePlayback() {
-  if (!playerReady) {
-    wantToPlay = true;
-    updateSignal("LOADING");
+function play(){
+  if(!playerReady){
+    pendingPlay=true;
+    signal("LOADING");
     return;
   }
-
-  const state = player.getPlayerState();
-  if (state === YT.PlayerState.PLAYING) {
-    player.pauseVideo();
-  } else {
-    wantToPlay = true;
-    player.playVideo();
-  }
+  pendingPlay=true;
+  player.playVideo();
 }
 
-function nextTrack() {
-  if (!playerReady) return;
-  player.nextVideo();
+function pause(){
+  if(playerReady) player.pauseVideo();
 }
 
-function previousTrack() {
-  if (!playerReady) return;
-  player.previousVideo();
+function next(){
+  if(playerReady) player.nextVideo();
 }
 
-function shuffleTracks() {
-  if (!playerReady) return;
-  const playlist = player.getPlaylist() || [];
+function previous(){
+  if(playerReady) player.previousVideo();
+}
+
+function shuffle(){
+  if(!playerReady) return;
   player.setShuffle(true);
-  if (playlist.length > 1) {
-    player.playVideoAt(Math.floor(Math.random() * playlist.length));
-  }
+  const list=player.getPlaylist() || [];
+  if(list.length) player.playVideoAt(Math.floor(Math.random()*list.length));
 }
 
-function setStation(nextStation) {
-  station = nextStation;
-  document.querySelectorAll(".station").forEach((button) => {
-    button.classList.toggle("active", button.dataset.station === station);
-  });
-  $("stationLabel").textContent = stations[station].label;
-  updateSignal("GOOD");
-}
-
-function sendChat() {
-  const input = $("chatInput");
-  if (!input.value.trim()) return;
-  const p = document.createElement("p");
-  p.innerHTML = `<b>you:</b> ${input.value.replace(/[<>]/g, "")}`;
-  $("chatMessages").appendChild(p);
-  input.value = "";
-  $("chatMessages").scrollTop = $("chatMessages").scrollHeight;
-}
-
-function clock() {
-  const d = new Date();
-  $("clock").textContent = d.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false
-  });
-}
-
-function onPlayerReady() {
-  playerReady = true;
-  updateSignal("READY");
+function onReady(){
+  playerReady=true;
+  signal("READY");
   player.setVolume(Number($("volume").value));
-
-  player.loadPlaylist({
-    listType: "playlist",
-    list: PLAYLIST_ID,
-    index: 0
-  });
-
-  setTimeout(() => {
-    updateTrackInfo();
-    updateProgress();
-    if (wantToPlay) player.playVideo();
-  }, 900);
+  player.cuePlaylist({listType:"playlist",list:PLAYLIST_ID,index:0});
+  setTimeout(()=>{
+    updateTrack();
+    progress();
+    if(pendingPlay) player.playVideo();
+  },700);
 }
 
-function onPlayerStateChange(event) {
-  const state = event.data;
-
-  if (state === YT.PlayerState.PLAYING) {
-    wantToPlay = true;
-    setPlayButton(true);
-    updateSignal("GOOD");
-    updateTrackInfo();
-    startProgress();
-  } else if (state === YT.PlayerState.PAUSED) {
-    setPlayButton(false);
-    stopProgress();
-    updateProgress();
-  } else if (state === YT.PlayerState.ENDED) {
-    setPlayButton(false);
-    stopProgress();
-    updateProgress();
-    setTimeout(updateTrackInfo, 300);
-  } else if (state === YT.PlayerState.BUFFERING) {
-    updateSignal("BUFFERING");
-  } else if (state === YT.PlayerState.CUED) {
-    updateTrackInfo();
-    updateProgress();
-    updateSignal("READY");
+function onState(e){
+  switch(e.data){
+    case YT.PlayerState.PLAYING:
+      button(true); signal("PLAYING"); updateTrack(); startProgress(); break;
+    case YT.PlayerState.PAUSED:
+      button(false); signal("PAUSED"); stopProgress(); progress(); break;
+    case YT.PlayerState.BUFFERING:
+      signal("BUFFERING"); break;
+    case YT.PlayerState.CUED:
+      button(false); signal("READY"); updateTrack(); progress(); break;
+    case YT.PlayerState.ENDED:
+      button(false); stopProgress(); setTimeout(updateTrack,300); break;
   }
 }
 
-function onAutoplayBlocked() {
-  updateSignal("CLICK PLAY");
-  setPlayButton(false);
+function onError(e){
+  console.warn("YouTube player error",e.data);
+  signal(`YT ERROR ${e.data}`);
 }
 
-window.onYouTubeIframeAPIReady = function () {
-  player = new YT.Player("youtube-player", {
-    width: "320",
-    height: "180",
-    playerVars: {
-      listType: "playlist",
-      list: PLAYLIST_ID,
-      controls: 1,
-      playsinline: 1,
-      rel: 0,
-      origin: window.location.origin
+window.onYouTubeIframeAPIReady=()=>{
+  player=new YT.Player("youtube-player",{
+    width:"360",
+    height:"203",
+    playerVars:{
+      autoplay:0,
+      controls:1,
+      playsinline:1,
+      rel:0,
+      listType:"playlist",
+      list:PLAYLIST_ID,
+      origin:location.origin
     },
-    events: {
-      onReady: onPlayerReady,
-      onStateChange: onPlayerStateChange,
-      onAutoplayBlocked
+    events:{
+      onReady,
+      onStateChange:onState,
+      onError
     }
   });
 };
 
-// Keep the official YouTube player in a dedicated corner.
-// It remains part of the page rather than downloading or extracting audio.
-const youtubeHost = document.createElement("div");
-youtubeHost.id = "youtube-player";
-youtubeHost.setAttribute("aria-label", "YouTube playback");
-youtubeHost.style.position = "fixed";
-youtubeHost.style.width = "320px";
-youtubeHost.style.height = "180px";
-youtubeHost.style.right = "12px";
-youtubeHost.style.bottom = "12px";
-youtubeHost.style.zIndex = "1";
-youtubeHost.style.opacity = "0.015";
-youtubeHost.style.pointerEvents = "none";
-youtubeHost.style.overflow = "hidden";
-document.body.appendChild(youtubeHost);
+const host=document.createElement("div");
+host.id="youtube-player";
+host.style.position="fixed";
+host.style.right="14px";
+host.style.bottom="14px";
+host.style.width="360px";
+host.style.height="203px";
+host.style.zIndex="100";
+host.style.background="#000";
+host.style.border="1px solid #536643";
+host.style.boxShadow="0 8px 30px #000";
+document.body.appendChild(host);
 
-const youtubeScript = document.createElement("script");
-youtubeScript.src = "https://www.youtube.com/iframe_api";
-document.head.appendChild(youtubeScript);
+const script=document.createElement("script");
+script.src="https://www.youtube.com/iframe_api";
+document.head.appendChild(script);
 
-$("playBtn").onclick = togglePlayback;
-$("nextBtn").onclick = nextTrack;
-$("prevBtn").onclick = previousTrack;
-$("shuffleBtn").onclick = shuffleTracks;
-
-$("muteBtn").onclick = () => {
-  if (!playerReady) return;
-  muted = !muted;
-  if (muted) player.mute();
-  else player.unMute();
-  $("muteBtn").textContent = muted ? "×" : "♫";
-};
-
-$("volume").oninput = (event) => {
-  const value = Number(event.target.value);
-  if (!playerReady) return;
-
-  if (value === 0) {
-    muted = true;
-    player.mute();
-    $("muteBtn").textContent = "×";
+$("playBtn").onclick=()=>{
+  if(playerReady){
+    const state=player.getPlayerState();
+    if(state===YT.PlayerState.PLAYING) pause();
+    else play();
   } else {
-    muted = false;
-    player.unMute();
-    player.setVolume(value);
-    $("muteBtn").textContent = "♫";
+    pendingPlay=true;
+    signal("LOADING");
   }
 };
+$("nextBtn").onclick=next;
+$("prevBtn").onclick=previous;
+$("shuffleBtn").onclick=shuffle;
 
-document.querySelectorAll(".station").forEach((button) => {
-  button.onclick = () => setStation(button.dataset.station);
-});
-
-$("chatSend").onclick = sendChat;
-$("chatInput").addEventListener("keydown", (event) => {
-  if (event.key === "Enter") sendChat();
-});
-
-$("progressFill").parentElement.onclick = (event) => {
-  if (!playerReady) return;
-  const rect = event.currentTarget.getBoundingClientRect();
-  const ratio = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
-  player.seekTo(player.getDuration() * ratio, true);
+$("muteBtn").onclick=()=>{
+  if(!playerReady)return;
+  muted=!muted;
+  muted?player.mute():player.unMute();
+  $("muteBtn").textContent=muted?"×":"♫";
 };
 
-setInterval(clock, 1000);
-clock();
+$("volume").oninput=e=>{
+  if(!playerReady)return;
+  const v=Number(e.target.value);
+  if(v===0){player.mute();muted=true;$("muteBtn").textContent="×";}
+  else {player.unMute();player.setVolume(v);muted=false;$("muteBtn").textContent="♫";}
+};
 
-setInterval(() => {
-  $("listeners").textContent = 410 + Math.floor(Math.random() * 48);
-}, 5000);
+$("progressFill").parentElement.onclick=e=>{
+  if(!playerReady)return;
+  const r=e.currentTarget.getBoundingClientRect();
+  const ratio=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));
+  player.seekTo(player.getDuration()*ratio,true);
+};
 
-setTimeout(() => $("boot").classList.add("hide"), 1900);
+document.querySelectorAll(".station").forEach(b=>{
+  b.onclick=()=>document.querySelectorAll(".station").forEach(x=>x.classList.toggle("active",x===b));
+});
+
+$("chatSend").onclick=()=>{
+  const i=$("chatInput");
+  if(!i.value.trim())return;
+  const p=document.createElement("p");
+  p.innerHTML=`<b>you:</b> ${i.value.replace(/[<>]/g,"")}`;
+  $("chatMessages").appendChild(p); i.value="";
+};
+
+$("chatInput").addEventListener("keydown",e=>{if(e.key==="Enter")$("chatSend").click()});
+function clock(){ $("clock").textContent=new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}); }
+setInterval(clock,1000); clock();
+setInterval(()=>$("listeners").textContent=410+Math.floor(Math.random()*48),5000);
+setTimeout(()=>$("boot").classList.add("hide"),1900);
